@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Трекер тренировок</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      padding: 16px;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: #1c1c1e;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #2c2c2e;
+    }
+
+    .task:last-child {
+      border-bottom: none;
+    }
+
+    .circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #555;
+    }
+
+    .time {
+      color: #3ddc84;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #2f80ff;
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Сегодня</h1>
+
+<div class="card">
+  <div class="task">
+    <div class="circle"></div>
+    <div>
+      <div>Тренировка</div>
+      <div class="time">20:00</div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="circle"></div>
+    <div>
+      <div>Книга</div>
+      <div class="time">23:00</div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="circle"></div>
+    <div>
+      <div>Англ яз</div>
+      <div class="time">22:00</div>
+    </div>
+  </div>
+</div>
+
+<button>+ Добавить задачу</button>
+
+<script>
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+</script>
+
+</body>
+</html>
