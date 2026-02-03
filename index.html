@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Дневник тренировок</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+  const tg = window.Telegram?.WebApp;
+  tg?.ready();
+  tg?.expand();
+</script>
   <style>
     :root{
       --bg:#0f1115;
@@ -154,5 +160,6 @@
       <button class="smallbtn">Прогресс</button>
     </div>
   </div>
+<script src="index.js"></script>
 </body>
 </html>
