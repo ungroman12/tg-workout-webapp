@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Дневник тренировок</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-  const tg = window.Telegram?.WebApp;
-  tg?.ready();
-  tg?.expand();
-</script>
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     :root{
       --bg:#0f1115;
@@ -57,6 +55,7 @@
       letter-spacing:.5px;
     }
     .kpi small{font-size:14px;color:var(--muted);font-weight:600}
+
     .btn{
       width:100%;
       margin-top:14px;
@@ -69,6 +68,7 @@
       font-weight:700;
       cursor:pointer;
     }
+
     .list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
     .item{
       display:flex;gap:12px;align-items:flex-start;
@@ -93,6 +93,7 @@
       font-size:12px;
       white-space:nowrap;
     }
+
     .footerbar{
       position:fixed;left:0;right:0;bottom:0;
       background:rgba(15,17,21,.92);
@@ -112,8 +113,23 @@
       cursor:pointer;
     }
     .smallbtn.primary{background:rgba(59,130,246,.16);border-color:rgba(59,130,246,.35)}
+
+    /* form */
+    .field{
+      width:100%;
+      margin-top:12px;
+      background:rgba(0,0,0,.12);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+    }
+    .hint{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.4}
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <div class="top">
@@ -138,18 +154,26 @@
         <span class="tag">💪 План на день</span>
       </div>
 
+      <!-- Ввод тренировки -->
+      <input id="workoutTitle" class="field" placeholder="Например: Грудь + жим" />
+      <input id="workoutSets" class="field" placeholder="Например: Жим лёжа — 3×10 — 80 кг" />
+      <div class="hint">
+        Это пока демо: мы отправляем введённый текст боту через <b>tg.sendData()</b>.
+        Дальше бот будет сохранять и показывать в календаре.
+      </div>
+
+      <button id="saveWorkout" class="btn">➕ Сохранить тренировку</button>
+
       <div class="list">
         <div class="item">
           <div class="dot"></div>
           <div style="flex:1">
             <h3>Тренировка не добавлена</h3>
-            <div class="meta">Нажми “＋ Новая тренировка”, чтобы внести упражнения, подходы, вес и повторения</div>
+            <div class="meta">Нажми “Сохранить тренировку”, чтобы отправить данные в бота</div>
           </div>
           <span class="tag">⏱ 0 мин</span>
         </div>
       </div>
-
-      <button class="btn">＋ Новая тренировка</button>
     </div>
   </div>
 
@@ -160,6 +184,38 @@
       <button class="smallbtn">Прогресс</button>
     </div>
   </div>
-<script src="index.js"></script>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+
+    // корректная инициализация (не ломает открытие в обычном браузере)
+    if (tg) {
+      tg.ready();
+      tg.expand();
+    }
+
+    document.getElementById('saveWorkout').addEventListener('click', () => {
+      const title = document.getElementById('workoutTitle').value.trim();
+      const sets  = document.getElementById('workoutSets').value.trim();
+
+      const payload = {
+        type: 'workout',
+        title,
+        sets,
+        ts: Date.now()
+      };
+
+      if (!tg) {
+        alert('Открой это внутри Telegram, чтобы отправить данные боту.\n\n' + JSON.stringify(payload, null, 2));
+        return;
+      }
+
+      tg.sendData(JSON.stringify(payload));
+      tg.showPopup({ title: 'Отправлено', message: 'Тренировка отправлена боту ✅', buttons: [{type:'ok'}] });
+    });
+  </script>
+
+  <!-- если index.js тебе больше не нужен — можно удалить строку ниже -->
+  <!-- <script src="index.js"></script> -->
 </body>
 </html>
