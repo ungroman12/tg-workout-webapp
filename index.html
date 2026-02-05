@@ -2,220 +2,1033 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Дневник тренировок</title>
 
-  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
     :root{
-      --bg:#0f1115;
-      --card:#171a21;
-      --muted:#9aa3b2;
-      --text:#e9eef8;
-      --accent:#3b82f6;
-      --line:rgba(255,255,255,.08);
-      --chip:#11141b;
+      --bg:#0b0f14;
+      --card:#121824;
+      --card2:#0f1520;
+      --text:#eaf0ff;
+      --muted:#a7b1c6;
+      --line:rgba(255,255,255,.09);
+      --accent:#2f7cf6;
+      --accent2:#1659c8;
+      --good:#19c37d;
+      --bad:#ff5c5c;
+      --shadow:0 16px 40px rgba(0,0,0,.35);
+      --radius:22px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      background:var(--bg);
+      background: radial-gradient(1200px 700px at 10% 0%, rgba(47,124,246,.18), transparent 55%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(25,195,125,.10), transparent 55%),
+                  var(--bg);
       color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      padding-bottom:96px;
     }
-    .wrap{max-width:920px;margin:0 auto;padding:20px 16px 90px}
-    .top{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      margin-bottom:14px;
+    .wrap{max-width:980px;margin:0 auto;padding:18px 14px}
+    .topbar{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+      margin-top:6px;margin-bottom:14px;
     }
-    .title{font-size:34px;font-weight:800;letter-spacing:.2px}
-    .sub{color:var(--muted);font-size:13px;margin-top:2px}
-    .pill{
-      background:var(--chip);border:1px solid var(--line);
-      padding:10px 12px;border-radius:14px;display:flex;gap:10px;align-items:center;
-      min-width:210px;justify-content:space-between;
-    }
-    .pill button{
-      background:transparent;border:0;color:var(--text);
-      font-size:18px;cursor:pointer;opacity:.9
-    }
-    .pill .center{font-size:13px;color:var(--muted);text-align:center}
-    .card{
-      background:var(--card);
+    .h1{font-size:34px;font-weight:900;letter-spacing:.2px;line-height:1}
+    .sub{color:var(--muted);font-size:13px;margin-top:6px}
+    .datepill{
+      background:rgba(255,255,255,.06);
       border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px;
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      border-radius:18px;
+      padding:10px 10px;
+      display:flex;align-items:center;gap:10px;
+      min-width:220px;
+      box-shadow:var(--shadow);
     }
-    .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .kpi{
-      font-size:36px;font-weight:900;
-      letter-spacing:.5px;
+    .iconbtn{
+      width:36px;height:36px;border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.15);
+      color:var(--text);
+      font-size:18px;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;
     }
-    .kpi small{font-size:14px;color:var(--muted);font-weight:600}
+    .datecenter{flex:1;text-align:center}
+    .datecenter .big{font-weight:900}
+    .datecenter .small{color:var(--muted);font-size:12px;margin-top:2px}
 
-    .btn{
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+
+    .hero{
+      border-radius:26px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55)),
+        url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=60");
+      background-size:cover;
+      background-position:center;
+      box-shadow:var(--shadow);
+      min-height:184px;
+      display:flex;
+      align-items:flex-end;
+      padding:16px;
+    }
+    .heroTitle{font-size:28px;font-weight:900}
+    .heroMeta{color:rgba(255,255,255,.78);margin-top:6px}
+
+    .statsCard{
+      background: linear-gradient(180deg, rgba(47,124,246,.92), rgba(22,89,200,.92));
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.18);
+      padding:14px 14px;
+      box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .statsCard .k{font-size:13px;opacity:.9}
+    .statsCard .v{font-size:26px;font-weight:900;margin-top:3px}
+    .statsCard .s{font-size:13px;opacity:.9;margin-top:2px}
+    .shareBtn{
+      width:44px;height:44px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.14);
+      color:white;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+    }
+    .cardTitle{font-size:16px;font-weight:900;margin:0 0 8px 0}
+    .muted{color:var(--muted)}
+
+    .workoutList{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .wItem{
+      background:rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+      display:flex;gap:12px;align-items:center;justify-content:space-between;
+    }
+    .wLeft{display:flex;flex-direction:column;gap:4px}
+    .wName{font-weight:900}
+    .wSmall{color:var(--muted);font-size:12px}
+    .wGo{
+      width:38px;height:38px;border-radius:16px;
+      background:rgba(47,124,246,.18);
+      border:1px solid rgba(47,124,246,.35);
+      color:var(--text);
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+
+    .primaryBtn{
       width:100%;
-      margin-top:14px;
-      background:var(--accent);
+      margin-top:12px;
+      background:linear-gradient(180deg, var(--accent), var(--accent2));
       color:white;
       border:0;
       padding:14px 16px;
-      border-radius:16px;
+      border-radius:18px;
       font-size:16px;
-      font-weight:700;
+      font-weight:900;
       cursor:pointer;
+      box-shadow: 0 14px 30px rgba(47,124,246,.25);
     }
-
-    .list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-    .item{
-      display:flex;gap:12px;align-items:flex-start;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.12);
-    }
-    .dot{
-      width:18px;height:18px;border-radius:50%;
-      border:2px solid rgba(255,255,255,.25);
-      margin-top:2px;flex:0 0 auto;
-    }
-    .item h3{margin:0;font-size:15px}
-    .item .meta{color:var(--muted);font-size:12px;margin-top:4px}
-    .tag{
-      display:inline-flex;align-items:center;gap:6px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.2);
-      color:var(--muted);
-      font-size:12px;
-      white-space:nowrap;
-    }
-
-    .footerbar{
-      position:fixed;left:0;right:0;bottom:0;
-      background:rgba(15,17,21,.92);
-      backdrop-filter: blur(10px);
-      border-top:1px solid var(--line);
-      padding:10px 14px;
-    }
-    .footerbar .inner{max-width:920px;margin:0 auto;display:flex;gap:10px}
-    .smallbtn{
-      flex:1;
-      background:transparent;
-      border:1px solid var(--line);
-      color:var(--text);
-      padding:12px 12px;
-      border-radius:14px;
-      font-weight:700;
-      cursor:pointer;
-    }
-    .smallbtn.primary{background:rgba(59,130,246,.16);border-color:rgba(59,130,246,.35)}
-
-    /* form */
-    .field{
+    .ghostBtn{
       width:100%;
-      margin-top:12px;
-      background:rgba(0,0,0,.12);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:12px;
+      margin-top:10px;
+      background:rgba(255,255,255,.06);
       color:var(--text);
+      border:1px solid var(--line);
+      padding:12px 14px;
+      border-radius:18px;
       font-size:14px;
-      outline:none;
+      font-weight:800;
+      cursor:pointer;
     }
-    .hint{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.4}
+
+    /* Bottom tabs */
+    .tabs{
+      position:fixed;left:0;right:0;bottom:0;
+      padding:12px 12px 18px;
+      background:rgba(10,14,20,.82);
+      backdrop-filter: blur(12px);
+      border-top:1px solid var(--line);
+    }
+    .tabs .inner{
+      max-width:980px;margin:0 auto;
+      display:flex;gap:10px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:8px;
+      box-shadow:var(--shadow);
+    }
+    .tab{
+      flex:1;
+      border:0;
+      background:transparent;
+      color:var(--muted);
+      padding:10px 10px;
+      border-radius:16px;
+      font-weight:900;
+      cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .tab.active{
+      background:rgba(47,124,246,.18);
+      color:var(--text);
+      border:1px solid rgba(47,124,246,.28);
+    }
+
+    /* Screens */
+    .screen{display:none}
+    .screen.active{display:block}
+
+    /* Editor */
+    .sheet{
+      position:fixed;left:0;right:0;top:0;bottom:0;
+      background:rgba(0,0,0,.55);
+      display:none;
+      align-items:flex-end;
+      padding:12px;
+      z-index:20;
+    }
+    .sheet.show{display:flex}
+    .sheetInner{
+      width:100%;
+      max-width:980px;
+      margin:0 auto;
+      background:rgba(18,24,36,.96);
+      border:1px solid var(--line);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:14px;
+      max-height:88vh;
+      overflow:auto;
+    }
+    .sheetTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .sheetTop .ttl{font-weight:900;font-size:18px}
+    .xbtn{
+      width:38px;height:38px;border-radius:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      cursor:pointer;
+      font-size:18px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .field{
+      display:flex;flex-direction:column;gap:6px;margin-top:10px
+    }
+    .field label{font-size:12px;color:var(--muted);font-weight:800}
+    input, select{
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:16px;
+      outline:none;
+      font-weight:800;
+      font-size:14px;
+    }
+    .exList{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+    .exCard{
+      background:rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+    }
+    .exHead{display:flex;gap:10px;align-items:center;justify-content:space-between}
+    .exHead .name{flex:1}
+    .mini{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text);
+      border-radius:14px;
+      padding:10px 10px;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .mini.danger{border-color:rgba(255,92,92,.35);background:rgba(255,92,92,.12)}
+    .sets{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+    .setRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap:8px;
+      align-items:center;
+    }
+    .setRow input{padding:10px 10px;border-radius:14px}
+    .delSet{
+      width:42px;height:42px;border-radius:14px;
+      border:1px solid rgba(255,92,92,.35);
+      background:rgba(255,92,92,.12);
+      color:var(--text);
+      cursor:pointer;
+      font-size:16px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .sheetActions{display:flex;gap:10px;margin-top:12px}
+    .sheetActions .primaryBtn{margin-top:0}
+    .sheetActions .ghostBtn{margin-top:0}
+
+    /* Progress */
+    canvas{width:100%;height:220px;background:rgba(0,0,0,.14);border:1px solid var(--line);border-radius:18px}
+    .chipRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      font-weight:900;
+      cursor:pointer;
+      font-size:12px;
+      opacity:.9;
+    }
+    .chip.active{background:rgba(47,124,246,.18);border-color:rgba(47,124,246,.35)}
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="top">
-      <div>
-        <div class="title">Тренировки</div>
-        <div class="sub">Дневник • календарь • прогресс</div>
-      </div>
 
-      <div class="pill">
-        <button aria-label="prev">‹</button>
-        <div class="center">
-          <div style="color:var(--text);font-weight:800">Сегодня</div>
-          <div>Вт, 3 фев</div>
+    <!-- WORKOUTS SCREEN -->
+    <section id="screen-workouts" class="screen active">
+      <div class="topbar">
+        <div>
+          <div class="h1">Тренировки</div>
+          <div class="sub">дневник • календарь • прогресс</div>
         </div>
-        <button aria-label="next">›</button>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="row">
-        <div class="kpi">0 <small>/ 1 тренировка</small></div>
-        <span class="tag">💪 План на день</span>
-      </div>
-
-      <!-- Ввод тренировки -->
-      <input id="workoutTitle" class="field" placeholder="Например: Грудь + жим" />
-      <input id="workoutSets" class="field" placeholder="Например: Жим лёжа — 3×10 — 80 кг" />
-      <div class="hint">
-        Это пока демо: мы отправляем введённый текст боту через <b>tg.sendData()</b>.
-        Дальше бот будет сохранять и показывать в календаре.
-      </div>
-
-      <button id="saveWorkout" class="btn">➕ Сохранить тренировку</button>
-
-      <div class="list">
-        <div class="item">
-          <div class="dot"></div>
-          <div style="flex:1">
-            <h3>Тренировка не добавлена</h3>
-            <div class="meta">Нажми “Сохранить тренировку”, чтобы отправить данные в бота</div>
+        <div class="datepill">
+          <button class="iconbtn" id="prevDay" aria-label="prev">‹</button>
+          <div class="datecenter">
+            <div class="big" id="dateTitle">Сегодня</div>
+            <div class="small" id="dateSubtitle">—</div>
           </div>
-          <span class="tag">⏱ 0 мин</span>
+          <button class="iconbtn" id="nextDay" aria-label="next">›</button>
         </div>
       </div>
+
+      <div class="grid">
+        <div class="hero">
+          <div>
+            <div class="heroTitle" id="heroWorkoutName">Тренировка дня</div>
+            <div class="heroMeta" id="heroWorkoutMeta">Добавь первую тренировку на выбранную дату</div>
+          </div>
+        </div>
+
+        <div class="statsCard">
+          <div>
+            <div class="k">Всего</div>
+            <div class="v"><span id="statWorkouts">0</span> тренировок</div>
+            <div class="s">Поднятый вес: <b id="statVolume">0</b> кг</div>
+          </div>
+          <button class="shareBtn" id="shareBtn" title="Поделиться">⤴︎</button>
+        </div>
+
+        <div class="card">
+          <div class="cardTitle">На выбранную дату</div>
+          <div class="muted" id="emptyHint">Пока пусто. Нажми “＋ Новая тренировка”.</div>
+
+          <div class="workoutList" id="workoutList"></div>
+
+          <button class="primaryBtn" id="newWorkoutBtn">＋ Новая тренировка</button>
+          <button class="ghostBtn" id="sendToBotBtn">💾 Сохранить в боте (tg.sendData)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR SCREEN -->
+    <section id="screen-calendar" class="screen">
+      <div class="topbar">
+        <div>
+          <div class="h1">Календарь</div>
+          <div class="sub">быстрый выбор даты и просмотр</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Выбери дату</div>
+        <div class="field">
+          <label>Дата</label>
+          <input type="date" id="datePicker">
+        </div>
+
+        <button class="primaryBtn" id="goToDateBtn">Открыть дату</button>
+        <div class="muted" style="margin-top:10px">Подсказка: тренировки хранятся локально и/или в боте (workouts.json).</div>
+      </div>
+    </section>
+
+    <!-- PROGRESS SCREEN -->
+    <section id="screen-progress" class="screen">
+      <div class="topbar">
+        <div>
+          <div class="h1">Прогресс</div>
+          <div class="sub">статистика по тренировкам</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Всего</div>
+        <div class="statsCard" style="box-shadow:none;border:1px solid var(--line)">
+          <div>
+            <div class="k">Продолжительность (пока оценка)</div>
+            <div class="v"><span id="pDuration">0</span> мин</div>
+            <div class="s">Тренировки: <b id="pCount">0</b> • Поднятый вес: <b id="pVolume">0</b> кг</div>
+          </div>
+          <button class="shareBtn" id="exportHintBtn" title="Экспорт">⇩</button>
+        </div>
+
+        <div class="cardTitle" style="margin-top:14px">Статистика</div>
+
+        <div class="chipRow">
+          <button class="chip active" data-range="30">1М</button>
+          <button class="chip" data-range="90">3М</button>
+          <button class="chip" data-range="180">6М</button>
+          <button class="chip" data-range="365">1Г</button>
+          <button class="chip" data-range="9999">ВСЕ</button>
+        </div>
+
+        <div style="margin-top:12px">
+          <canvas id="chart" width="900" height="260"></canvas>
+          <div class="muted" style="margin-top:10px">График: кол-во тренировок по дням (упрощённо).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS SCREEN -->
+    <section id="screen-settings" class="screen">
+      <div class="topbar">
+        <div>
+          <div class="h1">Настройки</div>
+          <div class="sub">экспорт / очистка / отладка</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Хранилище</div>
+        <button class="ghostBtn" id="clearLocalBtn">🧹 Очистить локальные данные (localStorage)</button>
+        <button class="ghostBtn" id="requestExportBtn">📦 Попросить экспорт у бота (tg.sendData)</button>
+        <div class="muted" style="margin-top:10px">
+          Экспорт также доступен командой бота <b>/export</b>.
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <div class="cardTitle">Отладка</div>
+        <div class="muted" id="debugBox">—</div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bottom Tabs -->
+  <div class="tabs">
+    <div class="inner">
+      <button class="tab active" data-tab="workouts">🏋️ Тренировки</button>
+      <button class="tab" data-tab="calendar">📅 Календарь</button>
+      <button class="tab" data-tab="progress">📊 Прогресс</button>
+      <button class="tab" data-tab="settings">⚙️ Настройки</button>
     </div>
   </div>
 
-  <div class="footerbar">
-    <div class="inner">
-      <button class="smallbtn primary">День</button>
-      <button class="smallbtn">Календарь</button>
-      <button class="smallbtn">Прогресс</button>
+  <!-- Editor Sheet -->
+  <div class="sheet" id="sheet">
+    <div class="sheetInner">
+      <div class="sheetTop">
+        <div class="ttl">Новая тренировка</div>
+        <button class="xbtn" id="closeSheet">✕</button>
+      </div>
+
+      <div class="field">
+        <label>Название</label>
+        <input id="wTitle" placeholder="Напр: Грудь + трицепс">
+      </div>
+
+      <div class="field">
+        <label>Дата</label>
+        <input id="wDate" type="date">
+      </div>
+
+      <div class="exList" id="exList"></div>
+
+      <button class="ghostBtn" id="addExerciseBtn">＋ Добавить упражнение</button>
+
+      <div class="sheetActions">
+        <button class="ghostBtn" id="draftBtn">Сохранить локально</button>
+        <button class="primaryBtn" id="saveBtn">💾 Сохранить и отправить в бота</button>
+      </div>
+
+      <div class="muted" style="margin-top:10px">
+        Локально = в браузере (localStorage). В боте = запись в workouts.json через tg.sendData.
+      </div>
     </div>
   </div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
+    // -----------------------------
+    // Telegram init
+    // -----------------------------
+    const TG = window.Telegram?.WebApp;
+    try {
+      TG?.ready();
+      TG?.expand();
+      // приятные цвета в Telegram
+      if (TG?.setHeaderColor) TG.setHeaderColor({ color: "#0b0f14" });
+      if (TG?.setBackgroundColor) TG.setBackgroundColor({ color: "#0b0f14" });
+    } catch (e) {}
 
-    // корректная инициализация (не ломает открытие в обычном браузере)
-    if (tg) {
-      tg.ready();
-      tg.expand();
+    const debugBox = document.getElementById('debugBox');
+    function debug(msg){
+      debugBox.textContent = String(msg);
+    }
+    debug("WebApp loaded. " + (TG ? "Telegram WebApp detected." : "No TG object (opened in browser)."));
+
+    // -----------------------------
+    // Data model
+    // workout = { id, date(YYYY-MM-DD), title, exercises:[{name, sets:[{w,r}]}], createdAt }
+    // -----------------------------
+    const LS_KEY = "workout_diary_v1";
+    function loadLocal(){
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch { return []; }
+    }
+    function saveLocal(all){
+      localStorage.setItem(LS_KEY, JSON.stringify(all));
+    }
+    function uid(){
+      return Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+    function todayISO(){
+      const d = new Date();
+      const off = d.getTimezoneOffset();
+      const local = new Date(d.getTime() - off*60*1000);
+      return local.toISOString().slice(0,10);
+    }
+    function fmtDateTitle(iso){
+      const t = todayISO();
+      if (iso === t) return "Сегодня";
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString("ru-RU", { weekday:"short", day:"numeric", month:"short" });
+    }
+    function fmtDateSub(iso){
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString("ru-RU", { weekday:"long", day:"numeric", month:"long" });
     }
 
-    document.getElementById('saveWorkout').addEventListener('click', () => {
-      const title = document.getElementById('workoutTitle').value.trim();
-      const sets  = document.getElementById('workoutSets').value.trim();
+    // -----------------------------
+    // State
+    // -----------------------------
+    let allWorkouts = loadLocal();
+    let selectedDate = todayISO();
+    let draft = null; // current editor draft
+    let chartRangeDays = 30;
 
-      const payload = {
-        type: 'workout',
-        title,
-        sets,
-        ts: Date.now()
-      };
+    // -----------------------------
+    // Tabs
+    // -----------------------------
+    const screens = {
+      workouts: document.getElementById("screen-workouts"),
+      calendar: document.getElementById("screen-calendar"),
+      progress: document.getElementById("screen-progress"),
+      settings: document.getElementById("screen-settings"),
+    };
 
-      if (!tg) {
-        alert('Открой это внутри Telegram, чтобы отправить данные боту.\n\n' + JSON.stringify(payload, null, 2));
-        return;
+    function setTab(tab){
+      document.querySelectorAll(".tab").forEach(b=>{
+        b.classList.toggle("active", b.dataset.tab === tab);
+      });
+      Object.keys(screens).forEach(k=>{
+        screens[k].classList.toggle("active", k === tab);
+      });
+      if(tab === "progress") renderProgress();
+      if(tab === "calendar") syncDatePicker();
+    }
+
+    document.querySelectorAll(".tab").forEach(b=>{
+      b.addEventListener("click", ()=> setTab(b.dataset.tab));
+    });
+
+    // -----------------------------
+    // Header date controls
+    // -----------------------------
+    const dateTitle = document.getElementById("dateTitle");
+    const dateSubtitle = document.getElementById("dateSubtitle");
+    const prevDay = document.getElementById("prevDay");
+    const nextDay = document.getElementById("nextDay");
+
+    function shiftDay(n){
+      const d = new Date(selectedDate + "T00:00:00");
+      d.setDate(d.getDate() + n);
+      selectedDate = d.toISOString().slice(0,10);
+      renderWorkouts();
+    }
+    prevDay.addEventListener("click", ()=>shiftDay(-1));
+    nextDay.addEventListener("click", ()=>shiftDay(1));
+
+    // -----------------------------
+    // Workout list screen
+    // -----------------------------
+    const workoutList = document.getElementById("workoutList");
+    const emptyHint = document.getElementById("emptyHint");
+    const heroWorkoutName = document.getElementById("heroWorkoutName");
+    const heroWorkoutMeta = document.getElementById("heroWorkoutMeta");
+
+    const statWorkouts = document.getElementById("statWorkouts");
+    const statVolume = document.getElementById("statVolume");
+
+    function calcWorkoutVolume(w){
+      let sum = 0;
+      for(const ex of (w.exercises||[])){
+        for(const s of (ex.sets||[])){
+          const ww = Number(s.w||0);
+          const rr = Number(s.r||0);
+          sum += ww * rr;
+        }
+      }
+      return Math.round(sum);
+    }
+
+    function workoutsByDate(iso){
+      return allWorkouts
+        .filter(w => w.date === iso)
+        .sort((a,b)=> (a.createdAt||0) - (b.createdAt||0));
+    }
+
+    function renderWorkouts(){
+      dateTitle.textContent = fmtDateTitle(selectedDate);
+      dateSubtitle.textContent = fmtDateSub(selectedDate);
+
+      const todays = workoutsByDate(selectedDate);
+
+      workoutList.innerHTML = "";
+      emptyHint.style.display = todays.length ? "none" : "block";
+
+      if(!todays.length){
+        heroWorkoutName.textContent = "Тренировка дня";
+        heroWorkoutMeta.textContent = "Добавь первую тренировку на выбранную дату";
+      } else {
+        const w0 = todays[0];
+        heroWorkoutName.textContent = w0.title || "Тренировка";
+        const exCount = (w0.exercises||[]).length;
+        heroWorkoutMeta.textContent = `${exCount} упражнений • объём ${calcWorkoutVolume(w0)} кг`;
       }
 
-      tg.sendData(JSON.stringify(payload));
-      tg.showPopup({ title: 'Отправлено', message: 'Тренировка отправлена боту ✅', buttons: [{type:'ok'}] });
-    });
-  </script>
+      for(const w of todays){
+        const exCount = (w.exercises||[]).length;
+        const vol = calcWorkoutVolume(w);
+        const div = document.createElement("div");
+        div.className = "wItem";
+        div.innerHTML = `
+          <div class="wLeft">
+            <div class="wName">${escapeHtml(w.title || "Тренировка")}</div>
+            <div class="wSmall">${exCount} упражнений • ${vol} кг</div>
+          </div>
+          <button class="wGo" title="Открыть">›</button>
+        `;
+        div.querySelector(".wGo").addEventListener("click", ()=>openEditor(w));
+        workoutList.appendChild(div);
+      }
 
-  <!-- если index.js тебе больше не нужен — можно удалить строку ниже -->
-  <!-- <script src="index.js"></script> -->
+      // global stats
+      statWorkouts.textContent = allWorkouts.length;
+      statVolume.textContent = allWorkouts.reduce((acc,w)=>acc+calcWorkoutVolume(w),0);
+    }
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    // -----------------------------
+    // Editor sheet
+    // -----------------------------
+    const sheet = document.getElementById("sheet");
+    const closeSheet = document.getElementById("closeSheet");
+    const newWorkoutBtn = document.getElementById("newWorkoutBtn");
+    const sendToBotBtn = document.getElementById("sendToBotBtn");
+
+    const wTitle = document.getElementById("wTitle");
+    const wDate = document.getElementById("wDate");
+    const exList = document.getElementById("exList");
+    const addExerciseBtn = document.getElementById("addExerciseBtn");
+    const draftBtn = document.getElementById("draftBtn");
+    const saveBtn = document.getElementById("saveBtn");
+
+    function openSheet(){
+      sheet.classList.add("show");
+      if (TG?.HapticFeedback) TG.HapticFeedback.impactOccurred("light");
+    }
+    function closeSheetFn(){
+      sheet.classList.remove("show");
+    }
+    closeSheet.addEventListener("click", closeSheetFn);
+    sheet.addEventListener("click", (e)=>{ if(e.target === sheet) closeSheetFn(); });
+
+    function newDraft(dateISO){
+      return {
+        id: uid(),
+        date: dateISO,
+        title: "",
+        exercises: [],
+        createdAt: Date.now(),
+      };
+    }
+
+    function openEditor(existing){
+      draft = existing ? JSON.parse(JSON.stringify(existing)) : newDraft(selectedDate);
+      wTitle.value = draft.title || "";
+      wDate.value = draft.date || selectedDate;
+      renderExercises();
+      openSheet();
+    }
+
+    newWorkoutBtn.addEventListener("click", ()=> openEditor(null));
+
+    addExerciseBtn.addEventListener("click", ()=>{
+      draft.exercises.push({ name:"", sets:[{w:"", r:""}] });
+      renderExercises();
+    });
+
+    function renderExercises(){
+      exList.innerHTML = "";
+      (draft.exercises||[]).forEach((ex, idx)=>{
+        const exDiv = document.createElement("div");
+        exDiv.className = "exCard";
+        exDiv.innerHTML = `
+          <div class="exHead">
+            <input class="name" placeholder="Упражнение (напр: Жим лёжа)" value="${escapeHtml(ex.name||"")}">
+            <button class="mini danger" title="Удалить упражнение">Удалить</button>
+          </div>
+
+          <div class="sets"></div>
+
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button class="mini addSet">＋ Подход</button>
+          </div>
+        `;
+        const nameInput = exDiv.querySelector(".name");
+        nameInput.addEventListener("input", ()=>{ ex.name = nameInput.value; });
+
+        exDiv.querySelector(".mini.danger").addEventListener("click", ()=>{
+          draft.exercises.splice(idx,1);
+          renderExercises();
+        });
+
+        const setsDiv = exDiv.querySelector(".sets");
+        function renderSets(){
+          setsDiv.innerHTML = "";
+          (ex.sets||[]).forEach((s, sidx)=>{
+            const row = document.createElement("div");
+            row.className = "setRow";
+            row.innerHTML = `
+              <input inputmode="decimal" placeholder="Вес (кг)" value="${escapeHtml(s.w ?? "")}">
+              <input inputmode="numeric" placeholder="Повторы" value="${escapeHtml(s.r ?? "")}">
+              <button class="delSet" title="Удалить">✕</button>
+            `;
+            const wI = row.querySelectorAll("input")[0];
+            const rI = row.querySelectorAll("input")[1];
+            wI.addEventListener("input", ()=> s.w = wI.value);
+            rI.addEventListener("input", ()=> s.r = rI.value);
+
+            row.querySelector(".delSet").addEventListener("click", ()=>{
+              ex.sets.splice(sidx,1);
+              renderSets();
+            });
+
+            setsDiv.appendChild(row);
+          });
+        }
+        renderSets();
+
+        exDiv.querySelector(".addSet").addEventListener("click", ()=>{
+          ex.sets.push({w:"", r:""});
+          renderSets();
+        });
+
+        exList.appendChild(exDiv);
+      });
+    }
+
+    draftBtn.addEventListener("click", ()=>{
+      if(!draft) return;
+      draft.title = wTitle.value.trim() || "Тренировка";
+      draft.date = wDate.value || selectedDate;
+
+      upsertLocal(draft);
+      closeSheetFn();
+      selectedDate = draft.date;
+      renderWorkouts();
+      setTab("workouts");
+      toast("Сохранено локально ✅");
+    });
+
+    saveBtn.addEventListener("click", ()=>{
+      if(!draft) return;
+      draft.title = wTitle.value.trim() || "Тренировка";
+      draft.date = wDate.value || selectedDate;
+
+      upsertLocal(draft);
+      selectedDate = draft.date;
+      renderWorkouts();
+
+      // send to bot
+      sendToBot(draft);
+
+      closeSheetFn();
+      setTab("workouts");
+    });
+
+    function upsertLocal(w){
+      const i = allWorkouts.findIndex(x=>x.id === w.id);
+      if(i >= 0) allWorkouts[i] = w;
+      else allWorkouts.push(w);
+      saveLocal(allWorkouts);
+    }
+
+    function sendToBot(workout){
+      const payload = {
+        type: "save_workout",
+        workout
+      };
+
+      if (TG?.sendData) {
+        TG.sendData(JSON.stringify(payload));
+        toast("Отправлено в бота 💾");
+      } else {
+        toast("TG не найден (открыто не в Telegram). Данные сохранены локально.");
+      }
+    }
+
+    sendToBotBtn.addEventListener("click", ()=>{
+      // отправим все тренировки на выбранную дату (или первую)
+      const todays = workoutsByDate(selectedDate);
+      if(!todays.length){
+        toast("На эту дату нет тренировок.");
+        return;
+      }
+      // отправим первую (можно расширить)
+      sendToBot(todays[0]);
+    });
+
+    // Share button — просто подсказка
+    document.getElementById("shareBtn").addEventListener("click", ()=>{
+      toast("Экспорт: открой чат с ботом и введи /export");
+    });
+
+    // -----------------------------
+    // Calendar screen
+    // -----------------------------
+    const datePicker = document.getElementById("datePicker");
+    const goToDateBtn = document.getElementById("goToDateBtn");
+
+    function syncDatePicker(){
+      datePicker.value = selectedDate;
+    }
+    goToDateBtn.addEventListener("click", ()=>{
+      if(datePicker.value){
+        selectedDate = datePicker.value;
+        renderWorkouts();
+        setTab("workouts");
+      }
+    });
+
+    // -----------------------------
+    // Progress screen
+    // -----------------------------
+    const pDuration = document.getElementById("pDuration");
+    const pCount = document.getElementById("pCount");
+    const pVolume = document.getElementById("pVolume");
+    const chart = document.getElementById("chart");
+    const ctx = chart.getContext("2d");
+
+    document.querySelectorAll(".chip").forEach(ch=>{
+      ch.addEventListener("click", ()=>{
+        document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+        ch.classList.add("active");
+        chartRangeDays = Number(ch.dataset.range);
+        renderProgress();
+      });
+    });
+
+    document.getElementById("exportHintBtn").addEventListener("click", ()=>{
+      toast("Экспорт: команда бота /export");
+    });
+
+    function renderProgress(){
+      const totalCount = allWorkouts.length;
+      const totalVolume = allWorkouts.reduce((acc,w)=>acc+calcWorkoutVolume(w),0);
+      const estDuration = allWorkouts.reduce((acc,w)=>acc + estimateMinutes(w),0);
+
+      pCount.textContent = totalCount;
+      pVolume.textContent = totalVolume;
+      pDuration.textContent = estDuration;
+
+      drawChart();
+    }
+
+    function estimateMinutes(w){
+      // очень грубо: 3 мин на подход
+      let sets = 0;
+      for(const ex of (w.exercises||[])){
+        sets += (ex.sets||[]).length;
+      }
+      return sets * 3;
+    }
+
+    function drawChart(){
+      // prepare series per day
+      const now = new Date();
+      const off = now.getTimezoneOffset();
+      const localNow = new Date(now.getTime() - off*60*1000);
+      const endISO = localNow.toISOString().slice(0,10);
+
+      let days = chartRangeDays;
+      if(days > 3650) days = 3650;
+
+      const end = new Date(endISO + "T00:00:00");
+      const start = new Date(end);
+      start.setDate(start.getDate() - (days - 1));
+
+      const map = new Map(); // iso -> count
+      for(const w of allWorkouts){
+        if(!w.date) continue;
+        map.set(w.date, (map.get(w.date)||0) + 1);
+      }
+
+      const labels = [];
+      const values = [];
+      const d = new Date(start);
+      while(d <= end){
+        const iso = d.toISOString().slice(0,10);
+        labels.push(iso);
+        values.push(map.get(iso) || 0);
+        d.setDate(d.getDate() + 1);
+      }
+
+      // draw
+      const W = chart.width, H = chart.height;
+      ctx.clearRect(0,0,W,H);
+
+      // background grid
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "rgba(0,0,0,0)";
+      ctx.fillRect(0,0,W,H);
+
+      const padding = 28;
+      const maxV = Math.max(1, ...values);
+      const barW = Math.max(2, Math.floor((W - padding*2) / values.length));
+
+      // axis lines
+      ctx.strokeStyle = "rgba(255,255,255,0.10)";
+      ctx.lineWidth = 1;
+      for(let i=0;i<5;i++){
+        const y = padding + (H - padding*2) * (i/4);
+        ctx.beginPath();
+        ctx.moveTo(padding, y);
+        ctx.lineTo(W-padding, y);
+        ctx.stroke();
+      }
+
+      // bars
+      for(let i=0;i<values.length;i++){
+        const v = values[i];
+        const x = padding + i*barW;
+        const h = (H - padding*2) * (v / maxV);
+        const y = H - padding - h;
+
+        // accent-ish without hardcoding: use rgba
+        ctx.fillStyle = "rgba(47,124,246,0.85)";
+        ctx.fillRect(x, y, barW-1, h);
+      }
+
+      // title
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.font = "bold 14px -apple-system,Segoe UI,Inter,Arial";
+      ctx.fillText("Тренировки по дням", padding, 18);
+    }
+
+    // -----------------------------
+    // Settings
+    // -----------------------------
+    document.getElementById("clearLocalBtn").addEventListener("click", ()=>{
+      localStorage.removeItem(LS_KEY);
+      allWorkouts = [];
+      renderWorkouts();
+      renderProgress();
+      toast("Локальные данные очищены 🧹");
+    });
+
+    document.getElementById("requestExportBtn").addEventListener("click", ()=>{
+      const payload = { type: "request_export" };
+      if (TG?.sendData) {
+        TG.sendData(JSON.stringify(payload));
+        toast("Запрос экспорта отправлен боту 📦");
+      } else {
+        toast("TG не найден. Открой в Telegram.");
+      }
+    });
+
+    // -----------------------------
+    // Toast
+    // -----------------------------
+    let toastT = null;
+    function toast(text){
+      let el = document.getElementById("toast");
+      if(!el){
+        el = document.createElement("div");
+        el.id = "toast";
+        el.style.position = "fixed";
+        el.style.left = "50%";
+        el.style.bottom = "96px";
+        el.style.transform = "translateX(-50%)";
+        el.style.background = "rgba(0,0,0,.65)";
+        el.style.border = "1px solid rgba(255,255,255,.12)";
+        el.style.color = "white";
+        el.style.padding = "10px 12px";
+        el.style.borderRadius = "14px";
+        el.style.fontWeight = "900";
+        el.style.fontSize = "13px";
+        el.style.boxShadow = "0 12px 26px rgba(0,0,0,.35)";
+        el.style.maxWidth = "92vw";
+        el.style.textAlign = "center";
+        document.body.appendChild(el);
+      }
+      el.textContent = text;
+      el.style.opacity = "1";
+      clearTimeout(toastT);
+      toastT = setTimeout(()=>{ el.style.opacity="0"; }, 1900);
+    }
+
+    // -----------------------------
+    // Start
+    // -----------------------------
+    function init(){
+      selectedDate = todayISO();
+      renderWorkouts();
+      renderProgress();
+      syncDatePicker();
+      wDate.value = selectedDate;
+    }
+    init();
+  </script>
 </body>
 </html>
