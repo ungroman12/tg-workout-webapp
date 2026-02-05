@@ -40,14 +40,21 @@
     }
     .h1{font-size:34px;font-weight:900;letter-spacing:.2px;line-height:1}
     .sub{color:var(--muted);font-size:13px;margin-top:6px}
-    .datepill{
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:10px 10px;
-      display:flex;align-items:center;gap:10px;
-      min-width:220px;
-      box-shadow:var(--shadow);
+   .datepill{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:10px 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  /* чтобы не вылезало вправо */
+  min-width:0;
+  width:200px;
+  max-width:42vw;
+
+  box-shadow:var(--shadow);
     }
     .iconbtn{
       width:36px;height:36px;border-radius:14px;
@@ -58,9 +65,28 @@
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;
     }
-    .datecenter{flex:1;text-align:center}
-    .datecenter .big{font-weight:900}
-    .datecenter .small{color:var(--muted);font-size:12px;margin-top:2px}
+   .datecenter{
+  flex:1;
+  min-width:0;
+  text-align:center;
+}
+
+.datecenter .big,
+.datecenter .small{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.datecenter .big{
+  font-weight:900;
+}
+
+.datecenter .small{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
+}
 
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
 
@@ -300,6 +326,51 @@
       opacity:.9;
     }
     .chip.active{background:rgba(47,124,246,.18);border-color:rgba(47,124,246,.35)}
+.pill{
+  min-width:0;
+  overflow:hidden;
+}
+.pill button{
+  flex: 0 0 44px;
+}
+
+/* fix: чтобы блок даты не вылезал за экран */
+.pill{
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  overflow: hidden;           /* важно */
+}
+
+/* центр реально центр, и не расширяет pill */
+.pill .center{
+  flex: 1 1 auto;
+  min-width: 0;               /* важно */
+  text-align: center;
+}
+
+/* строки внутри не ломают ширину */
+.pill .center > div{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* мобилка: верх в колонку, pill на всю ширину */
+@media (max-width: 520px){
+  .top{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .pill{
+    width: 100%;
+  }
+}
   </style>
 </head>
 
