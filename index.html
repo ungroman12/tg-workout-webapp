@@ -34,28 +34,40 @@
       padding-bottom:96px;
     }
     .wrap{max-width:980px;margin:0 auto;padding:18px 14px}
+
+    /* ===== TOP BAR (важно: не даём уезжать вправо) ===== */
     .topbar{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
-      margin-top:6px;margin-bottom:14px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:6px;
+      margin-bottom:14px;
+      flex-wrap:wrap;           /* ключ: если не помещается — перенос */
+      min-width:0;
     }
+
     .h1{font-size:34px;font-weight:900;letter-spacing:.2px;line-height:1}
     .sub{color:var(--muted);font-size:13px;margin-top:6px}
-   .datepill{
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:10px 10px;
-  display:flex;
-  align-items:center;
-  gap:10px;
 
-  /* чтобы не вылезало вправо */
-  min-width:0;
-  width:200px;
-  max-width:42vw;
+    /* ===== DATE PILL ===== */
+    .datepill{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:10px 10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      box-shadow:var(--shadow);
 
-  box-shadow:var(--shadow);
+      /* ключи против "уезжания" */
+      flex:0 0 auto;
+      min-width:0;
+      max-width:100%;
+      overflow:hidden;
     }
+
     .iconbtn{
       width:36px;height:36px;border-radius:14px;
       border:1px solid var(--line);
@@ -64,29 +76,33 @@
       font-size:18px;
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;
+      flex:0 0 36px; /* фиксируем ширину кнопок */
     }
-   .datecenter{
-  flex:1;
-  min-width:0;
-  text-align:center;
-}
 
-.datecenter .big,
-.datecenter .small{
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+    .datecenter{
+      flex:1 1 auto;
+      min-width:0;
+      text-align:center;
+    }
+    .datecenter .big,
+    .datecenter .small{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .datecenter .big{font-weight:900}
+    .datecenter .small{color:var(--muted);font-size:12px;margin-top:2px}
 
-.datecenter .big{
-  font-weight:900;
-}
-
-.datecenter .small{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:2px;
-}
+    /* мобильная: аккуратно в 2 строки, pill на всю ширину */
+    @media (max-width: 560px){
+      .topbar{
+        align-items:stretch;
+      }
+      .datepill{
+        width:100%;
+        justify-content:space-between;
+      }
+    }
 
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
 
@@ -115,7 +131,9 @@
       padding:14px 14px;
       box-shadow:var(--shadow);
       display:flex;align-items:center;justify-content:space-between;gap:12px;
+      min-width:0;
     }
+    .statsCard > div{min-width:0}
     .statsCard .k{font-size:13px;opacity:.9}
     .statsCard .v{font-size:26px;font-weight:900;margin-top:3px}
     .statsCard .s{font-size:13px;opacity:.9;margin-top:2px}
@@ -127,6 +145,7 @@
       cursor:pointer;
       display:flex;align-items:center;justify-content:center;
       font-size:18px;
+      flex:0 0 auto;
     }
 
     .card{
@@ -135,6 +154,7 @@
       border-radius:var(--radius);
       padding:14px;
       box-shadow:var(--shadow);
+      min-width:0;
     }
     .cardTitle{font-size:16px;font-weight:900;margin:0 0 8px 0}
     .muted{color:var(--muted)}
@@ -146,10 +166,11 @@
       border-radius:18px;
       padding:12px;
       display:flex;gap:12px;align-items:center;justify-content:space-between;
+      min-width:0;
     }
-    .wLeft{display:flex;flex-direction:column;gap:4px}
-    .wName{font-weight:900}
-    .wSmall{color:var(--muted);font-size:12px}
+    .wLeft{display:flex;flex-direction:column;gap:4px;min-width:0}
+    .wName{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wSmall{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .wGo{
       width:38px;height:38px;border-radius:16px;
       background:rgba(47,124,246,.18);
@@ -214,6 +235,8 @@
       font-weight:900;
       cursor:pointer;
       display:flex;align-items:center;justify-content:center;gap:8px;
+      min-width:0;
+      white-space:nowrap;
     }
     .tab.active{
       background:rgba(47,124,246,.18);
@@ -271,6 +294,7 @@
       outline:none;
       font-weight:800;
       font-size:14px;
+      min-width:0;
     }
     .exList{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .exCard{
@@ -278,9 +302,10 @@
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
+      min-width:0;
     }
     .exHead{display:flex;gap:10px;align-items:center;justify-content:space-between}
-    .exHead .name{flex:1}
+    .exHead .name{flex:1;min-width:0}
     .mini{
       background:rgba(255,255,255,.06);
       border:1px solid var(--line);
@@ -289,6 +314,8 @@
       padding:10px 10px;
       font-weight:900;
       cursor:pointer;
+      flex:0 0 auto;
+      white-space:nowrap;
     }
     .mini.danger{border-color:rgba(255,92,92,.35);background:rgba(255,92,92,.12)}
     .sets{margin-top:10px;display:flex;flex-direction:column;gap:8px}
@@ -307,8 +334,9 @@
       cursor:pointer;
       font-size:16px;
       display:flex;align-items:center;justify-content:center;
+      flex:0 0 auto;
     }
-    .sheetActions{display:flex;gap:10px;margin-top:12px}
+    .sheetActions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
     .sheetActions .primaryBtn{margin-top:0}
     .sheetActions .ghostBtn{margin-top:0}
 
@@ -326,51 +354,6 @@
       opacity:.9;
     }
     .chip.active{background:rgba(47,124,246,.18);border-color:rgba(47,124,246,.35)}
-.pill{
-  min-width:0;
-  overflow:hidden;
-}
-.pill button{
-  flex: 0 0 44px;
-}
-
-/* fix: чтобы блок даты не вылезал за экран */
-.pill{
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  overflow: hidden;           /* важно */
-}
-
-/* центр реально центр, и не расширяет pill */
-.pill .center{
-  flex: 1 1 auto;
-  min-width: 0;               /* важно */
-  text-align: center;
-}
-
-/* строки внутри не ломают ширину */
-.pill .center > div{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* мобилка: верх в колонку, pill на всю ширину */
-@media (max-width: 520px){
-  .top{
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .pill{
-    width: 100%;
-  }
-}
   </style>
 </head>
 
@@ -559,7 +542,6 @@
     try {
       TG?.ready();
       TG?.expand();
-      // приятные цвета в Telegram
       if (TG?.setHeaderColor) TG.setHeaderColor({ color: "#0b0f14" });
       if (TG?.setBackgroundColor) TG.setBackgroundColor({ color: "#0b0f14" });
     } catch (e) {}
@@ -609,7 +591,7 @@
     // -----------------------------
     let allWorkouts = loadLocal();
     let selectedDate = todayISO();
-    let draft = null; // current editor draft
+    let draft = null;
     let chartRangeDays = 30;
 
     // -----------------------------
@@ -718,7 +700,6 @@
         workoutList.appendChild(div);
       }
 
-      // global stats
       statWorkouts.textContent = allWorkouts.length;
       statVolume.textContent = allWorkouts.reduce((acc,w)=>acc+calcWorkoutVolume(w),0);
     }
@@ -861,7 +842,6 @@
       selectedDate = draft.date;
       renderWorkouts();
 
-      // send to bot
       sendToBot(draft);
 
       closeSheetFn();
@@ -890,17 +870,14 @@
     }
 
     sendToBotBtn.addEventListener("click", ()=>{
-      // отправим все тренировки на выбранную дату (или первую)
       const todays = workoutsByDate(selectedDate);
       if(!todays.length){
         toast("На эту дату нет тренировок.");
         return;
       }
-      // отправим первую (можно расширить)
       sendToBot(todays[0]);
     });
 
-    // Share button — просто подсказка
     document.getElementById("shareBtn").addEventListener("click", ()=>{
       toast("Экспорт: открой чат с ботом и введи /export");
     });
@@ -957,7 +934,6 @@
     }
 
     function estimateMinutes(w){
-      // очень грубо: 3 мин на подход
       let sets = 0;
       for(const ex of (w.exercises||[])){
         sets += (ex.sets||[]).length;
@@ -966,7 +942,6 @@
     }
 
     function drawChart(){
-      // prepare series per day
       const now = new Date();
       const off = now.getTimezoneOffset();
       const localNow = new Date(now.getTime() - off*60*1000);
@@ -979,36 +954,27 @@
       const start = new Date(end);
       start.setDate(start.getDate() - (days - 1));
 
-      const map = new Map(); // iso -> count
+      const map = new Map();
       for(const w of allWorkouts){
         if(!w.date) continue;
         map.set(w.date, (map.get(w.date)||0) + 1);
       }
 
-      const labels = [];
       const values = [];
       const d = new Date(start);
       while(d <= end){
         const iso = d.toISOString().slice(0,10);
-        labels.push(iso);
         values.push(map.get(iso) || 0);
         d.setDate(d.getDate() + 1);
       }
 
-      // draw
       const W = chart.width, H = chart.height;
       ctx.clearRect(0,0,W,H);
-
-      // background grid
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "rgba(0,0,0,0)";
-      ctx.fillRect(0,0,W,H);
 
       const padding = 28;
       const maxV = Math.max(1, ...values);
       const barW = Math.max(2, Math.floor((W - padding*2) / values.length));
 
-      // axis lines
       ctx.strokeStyle = "rgba(255,255,255,0.10)";
       ctx.lineWidth = 1;
       for(let i=0;i<5;i++){
@@ -1019,19 +985,15 @@
         ctx.stroke();
       }
 
-      // bars
       for(let i=0;i<values.length;i++){
         const v = values[i];
         const x = padding + i*barW;
         const h = (H - padding*2) * (v / maxV);
         const y = H - padding - h;
-
-        // accent-ish without hardcoding: use rgba
         ctx.fillStyle = "rgba(47,124,246,0.85)";
         ctx.fillRect(x, y, barW-1, h);
       }
 
-      // title
       ctx.fillStyle = "rgba(255,255,255,0.8)";
       ctx.font = "bold 14px -apple-system,Segoe UI,Inter,Arial";
       ctx.fillText("Тренировки по дням", padding, 18);
