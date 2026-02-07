@@ -74,16 +74,6 @@
     .statsCard .k{font-size:13px;opacity:.9}
     .statsCard .v{font-size:26px;font-weight:900;margin-top:3px}
     .statsCard .s{font-size:13px;opacity:.9;margin-top:2px}
-    .shareBtn{
-      width:44px;height:44px;border-radius:16px;
-      border:1px solid rgba(255,255,255,.25);
-      background:rgba(255,255,255,.14);
-      color:white;
-      cursor:pointer;
-      display:flex;align-items:center;justify-content:center;
-      font-size:18px;
-      flex:0 0 auto;
-    }
 
     .card{
       background:rgba(255,255,255,.04);
@@ -308,7 +298,6 @@
             <div class="v"><span id="statWorkouts">0</span> тренировок</div>
             <div class="s">Поднятый вес: <b id="statVolume">0</b> кг</div>
           </div>
-          <button class="shareBtn" id="shareBtn" title="Поделиться">⤴︎</button>
         </div>
 
         <div class="card">
@@ -356,7 +345,6 @@
             <div class="v"><span id="pDuration">0</span> мин</div>
             <div class="s">Тренировки: <b id="pCount">0</b> • Поднятый вес: <b id="pVolume">0</b> кг</div>
           </div>
-          <button class="shareBtn" id="exportHintBtn" title="Экспорт">⇩</button>
         </div>
 
         <div class="chipRow" style="margin-top:14px">
@@ -710,10 +698,6 @@
         chartRangeDays = Number(ch.dataset.range);
         renderProgress();
       });
-    });
-
-    document.getElementById("exportHintBtn").addEventListener("click", ()=>{
-      toast("Экспорт: команда бота /export");
     });
 
     function estimateMinutes(w){
