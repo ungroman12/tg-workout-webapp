@@ -551,7 +551,6 @@
     const sheet = document.getElementById("sheet");
     const closeSheet = document.getElementById("closeSheet");
     const newWorkoutBtn = document.getElementById("newWorkoutBtn");
-    const sendToBotBtn = document.getElementById("sendToBotBtn");
 
     const wTitle = document.getElementById("wTitle");
     const wDate = document.getElementById("wDate");
@@ -679,12 +678,6 @@
       sendToBot(draft);
       closeSheetFn();
       setTab("workouts");
-    });
-
-    sendToBotBtn.addEventListener("click", ()=>{
-      const todays = workoutsByDate(selectedDate);
-      if(!todays.length){ toast("На эту дату нет тренировок."); return; }
-      sendToBot(todays[0]);
     });
 
     document.getElementById("shareBtn").addEventListener("click", ()=>{
