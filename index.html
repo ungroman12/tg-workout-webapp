@@ -46,21 +46,14 @@
 
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
 
-   .hero{
+  .hero{
   border-radius:26px;
   overflow:hidden;
   border:1px solid var(--line);
-
-  background-color:#0f1520;
-  background-image:
-    linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55)),
-    url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=60");
-
-  background-size:cover;
-  background-position:center;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.65));
   box-shadow:var(--shadow);
-
-  min-height:184px;
+  min-height:160px;
   display:flex;
   align-items:flex-end;
   padding:16px;
@@ -153,17 +146,14 @@
       padding:8px;
       box-shadow:var(--shadow);
     }
-    .tab{
-      flex:1;
-      border:0;
-      background:transparent;
-      color:var(--muted);
-      padding:10px 10px;
-      border-radius:16px;
-      font-weight:900;
-      cursor:pointer;
-      display:flex;align-items:center;justify-content:center;gap:8px;
-    }
+   .tab{
+  flex:1;
+  min-width:0;          /* важно — не даёт кнопке растягиваться */
+  max-width:100%;
+  overflow:hidden;      /* обрезаем лишнее */
+  white-space:nowrap;   /* не переносим текст */
+  text-overflow:ellipsis; /* … если не влезает */
+}
     .tab.active{
       background:rgba(47,124,246,.18);
       color:var(--text);
