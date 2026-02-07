@@ -11,14 +11,11 @@
     :root{
       --bg:#0b0f14;
       --card:#121824;
-      --card2:#0f1520;
       --text:#eaf0ff;
       --muted:#a7b1c6;
       --line:rgba(255,255,255,.09);
       --accent:#2f7cf6;
       --accent2:#1659c8;
-      --good:#19c37d;
-      --bad:#ff5c5c;
       --shadow:0 16px 40px rgba(0,0,0,.35);
       --radius:22px;
     }
@@ -35,7 +32,7 @@
     }
     .wrap{max-width:980px;margin:0 auto;padding:18px 14px}
 
-    /* ===== TOP BAR (важно: не даём уезжать вправо) ===== */
+    /* Top */
     .topbar{
       display:flex;
       align-items:flex-end;
@@ -43,66 +40,9 @@
       gap:12px;
       margin-top:6px;
       margin-bottom:14px;
-      flex-wrap:wrap;           /* ключ: если не помещается — перенос */
-      min-width:0;
     }
-
     .h1{font-size:34px;font-weight:900;letter-spacing:.2px;line-height:1}
     .sub{color:var(--muted);font-size:13px;margin-top:6px}
-
-    /* ===== DATE PILL ===== */
-    .datepill{
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:10px 10px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      box-shadow:var(--shadow);
-
-      /* ключи против "уезжания" */
-      flex:0 0 auto;
-      min-width:0;
-      max-width:100%;
-      overflow:hidden;
-    }
-
-    .iconbtn{
-      width:36px;height:36px;border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.15);
-      color:var(--text);
-      font-size:18px;
-      display:flex;align-items:center;justify-content:center;
-      cursor:pointer;
-      flex:0 0 36px; /* фиксируем ширину кнопок */
-    }
-
-    .datecenter{
-      flex:1 1 auto;
-      min-width:0;
-      text-align:center;
-    }
-    .datecenter .big,
-    .datecenter .small{
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .datecenter .big{font-weight:900}
-    .datecenter .small{color:var(--muted);font-size:12px;margin-top:2px}
-
-    /* мобильная: аккуратно в 2 строки, pill на всю ширину */
-    @media (max-width: 560px){
-      .topbar{
-        align-items:stretch;
-      }
-      .datepill{
-        width:100%;
-        justify-content:space-between;
-      }
-    }
 
     .grid{display:grid;grid-template-columns:1fr;gap:12px}
 
@@ -122,18 +62,15 @@
       padding:16px;
     }
     .heroTitle{font-size:28px;font-weight:900}
-    .heroMeta{color:rgba(255,255,255,.78);margin-top:6px}
 
     .statsCard{
       background: linear-gradient(180deg, rgba(47,124,246,.92), rgba(22,89,200,.92));
       border-radius:26px;
       border:1px solid rgba(255,255,255,.18);
-      padding:14px 14px;
+      padding:14px;
       box-shadow:var(--shadow);
       display:flex;align-items:center;justify-content:space-between;gap:12px;
-      min-width:0;
     }
-    .statsCard > div{min-width:0}
     .statsCard .k{font-size:13px;opacity:.9}
     .statsCard .v{font-size:26px;font-weight:900;margin-top:3px}
     .statsCard .s{font-size:13px;opacity:.9;margin-top:2px}
@@ -154,23 +91,20 @@
       border-radius:var(--radius);
       padding:14px;
       box-shadow:var(--shadow);
-      min-width:0;
     }
-    .cardTitle{font-size:16px;font-weight:900;margin:0 0 8px 0}
     .muted{color:var(--muted)}
 
-    .workoutList{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+    .workoutList{display:flex;flex-direction:column;gap:10px;margin-top:6px}
     .wItem{
       background:rgba(0,0,0,.18);
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
       display:flex;gap:12px;align-items:center;justify-content:space-between;
-      min-width:0;
     }
     .wLeft{display:flex;flex-direction:column;gap:4px;min-width:0}
     .wName{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .wSmall{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .wSmall{color:var(--muted);font-size:12px}
     .wGo{
       width:38px;height:38px;border-radius:16px;
       background:rgba(47,124,246,.18);
@@ -235,8 +169,6 @@
       font-weight:900;
       cursor:pointer;
       display:flex;align-items:center;justify-content:center;gap:8px;
-      min-width:0;
-      white-space:nowrap;
     }
     .tab.active{
       background:rgba(47,124,246,.18);
@@ -248,7 +180,7 @@
     .screen{display:none}
     .screen.active{display:block}
 
-    /* Editor */
+    /* Editor Sheet */
     .sheet{
       position:fixed;left:0;right:0;top:0;bottom:0;
       background:rgba(0,0,0,.55);
@@ -281,20 +213,17 @@
       font-size:18px;
       display:flex;align-items:center;justify-content:center;
     }
-    .field{
-      display:flex;flex-direction:column;gap:6px;margin-top:10px
-    }
+    .field{display:flex;flex-direction:column;gap:6px;margin-top:10px}
     .field label{font-size:12px;color:var(--muted);font-weight:800}
     input, select{
       background:rgba(0,0,0,.22);
       border:1px solid var(--line);
       color:var(--text);
-      padding:12px 12px;
+      padding:12px;
       border-radius:16px;
       outline:none;
       font-weight:800;
       font-size:14px;
-      min-width:0;
     }
     .exList{display:flex;flex-direction:column;gap:10px;margin-top:12px}
     .exCard{
@@ -302,7 +231,6 @@
       border:1px solid var(--line);
       border-radius:18px;
       padding:12px;
-      min-width:0;
     }
     .exHead{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .exHead .name{flex:1;min-width:0}
@@ -314,8 +242,6 @@
       padding:10px 10px;
       font-weight:900;
       cursor:pointer;
-      flex:0 0 auto;
-      white-space:nowrap;
     }
     .mini.danger{border-color:rgba(255,92,92,.35);background:rgba(255,92,92,.12)}
     .sets{margin-top:10px;display:flex;flex-direction:column;gap:8px}
@@ -325,7 +251,7 @@
       gap:8px;
       align-items:center;
     }
-    .setRow input{padding:10px 10px;border-radius:14px}
+    .setRow input{padding:10px;border-radius:14px}
     .delSet{
       width:42px;height:42px;border-radius:14px;
       border:1px solid rgba(255,92,92,.35);
@@ -334,9 +260,8 @@
       cursor:pointer;
       font-size:16px;
       display:flex;align-items:center;justify-content:center;
-      flex:0 0 auto;
     }
-    .sheetActions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+    .sheetActions{display:flex;gap:10px;margin-top:12px}
     .sheetActions .primaryBtn{margin-top:0}
     .sheetActions .ghostBtn{margin-top:0}
 
@@ -365,16 +290,7 @@
       <div class="topbar">
         <div>
           <div class="h1">Тренировки</div>
-          <div class="sub">дневник • календарь • прогресс</div>
-        </div>
-
-        <div class="datepill">
-          <button class="iconbtn" id="prevDay" aria-label="prev">‹</button>
-          <div class="datecenter">
-            <div class="big" id="dateTitle">Сегодня</div>
-            <div class="small" id="dateSubtitle">—</div>
-          </div>
-          <button class="iconbtn" id="nextDay" aria-label="next">›</button>
+          <!-- убрано: дневник • календарь • прогресс -->
         </div>
       </div>
 
@@ -382,7 +298,7 @@
         <div class="hero">
           <div>
             <div class="heroTitle" id="heroWorkoutName">Тренировка дня</div>
-            <div class="heroMeta" id="heroWorkoutMeta">Добавь первую тренировку на выбранную дату</div>
+            <!-- убрано: подсказка/текст под заголовком -->
           </div>
         </div>
 
@@ -396,9 +312,7 @@
         </div>
 
         <div class="card">
-          <div class="cardTitle">На выбранную дату</div>
-          <div class="muted" id="emptyHint">Пока пусто. Нажми “＋ Новая тренировка”.</div>
-
+          <!-- убрано: "На выбранную дату" и "Пока пусто..." -->
           <div class="workoutList" id="workoutList"></div>
 
           <button class="primaryBtn" id="newWorkoutBtn">＋ Новая тренировка</button>
@@ -417,7 +331,6 @@
       </div>
 
       <div class="card">
-        <div class="cardTitle">Выбери дату</div>
         <div class="field">
           <label>Дата</label>
           <input type="date" id="datePicker">
@@ -438,7 +351,6 @@
       </div>
 
       <div class="card">
-        <div class="cardTitle">Всего</div>
         <div class="statsCard" style="box-shadow:none;border:1px solid var(--line)">
           <div>
             <div class="k">Продолжительность (пока оценка)</div>
@@ -448,9 +360,7 @@
           <button class="shareBtn" id="exportHintBtn" title="Экспорт">⇩</button>
         </div>
 
-        <div class="cardTitle" style="margin-top:14px">Статистика</div>
-
-        <div class="chipRow">
+        <div class="chipRow" style="margin-top:14px">
           <button class="chip active" data-range="30">1М</button>
           <button class="chip" data-range="90">3М</button>
           <button class="chip" data-range="180">6М</button>
@@ -475,7 +385,6 @@
       </div>
 
       <div class="card">
-        <div class="cardTitle">Хранилище</div>
         <button class="ghostBtn" id="clearLocalBtn">🧹 Очистить локальные данные (localStorage)</button>
         <button class="ghostBtn" id="requestExportBtn">📦 Попросить экспорт у бота (tg.sendData)</button>
         <div class="muted" style="margin-top:10px">
@@ -484,7 +393,6 @@
       </div>
 
       <div class="card" style="margin-top:12px">
-        <div class="cardTitle">Отладка</div>
         <div class="muted" id="debugBox">—</div>
       </div>
     </section>
@@ -535,9 +443,7 @@
   </div>
 
   <script>
-    // -----------------------------
     // Telegram init
-    // -----------------------------
     const TG = window.Telegram?.WebApp;
     try {
       TG?.ready();
@@ -547,146 +453,84 @@
     } catch (e) {}
 
     const debugBox = document.getElementById('debugBox');
-    function debug(msg){
-      debugBox.textContent = String(msg);
-    }
+    function debug(msg){ debugBox.textContent = String(msg); }
     debug("WebApp loaded. " + (TG ? "Telegram WebApp detected." : "No TG object (opened in browser)."));
 
-    // -----------------------------
-    // Data model
-    // workout = { id, date(YYYY-MM-DD), title, exercises:[{name, sets:[{w,r}]}], createdAt }
-    // -----------------------------
+    // Model
     const LS_KEY = "workout_diary_v1";
-    function loadLocal(){
-      try {
-        const raw = localStorage.getItem(LS_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch { return []; }
-    }
-    function saveLocal(all){
-      localStorage.setItem(LS_KEY, JSON.stringify(all));
-    }
-    function uid(){
-      return Math.random().toString(36).slice(2) + Date.now().toString(36);
-    }
+    function loadLocal(){ try { const raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : []; } catch { return []; } }
+    function saveLocal(all){ localStorage.setItem(LS_KEY, JSON.stringify(all)); }
+    function uid(){ return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+
     function todayISO(){
       const d = new Date();
       const off = d.getTimezoneOffset();
       const local = new Date(d.getTime() - off*60*1000);
       return local.toISOString().slice(0,10);
     }
-    function fmtDateTitle(iso){
-      const t = todayISO();
-      if (iso === t) return "Сегодня";
-      const d = new Date(iso + "T00:00:00");
-      return d.toLocaleDateString("ru-RU", { weekday:"short", day:"numeric", month:"short" });
-    }
-    function fmtDateSub(iso){
-      const d = new Date(iso + "T00:00:00");
-      return d.toLocaleDateString("ru-RU", { weekday:"long", day:"numeric", month:"long" });
-    }
 
-    // -----------------------------
     // State
-    // -----------------------------
     let allWorkouts = loadLocal();
     let selectedDate = todayISO();
     let draft = null;
     let chartRangeDays = 30;
 
-    // -----------------------------
     // Tabs
-    // -----------------------------
     const screens = {
       workouts: document.getElementById("screen-workouts"),
       calendar: document.getElementById("screen-calendar"),
       progress: document.getElementById("screen-progress"),
       settings: document.getElementById("screen-settings"),
     };
-
     function setTab(tab){
-      document.querySelectorAll(".tab").forEach(b=>{
-        b.classList.toggle("active", b.dataset.tab === tab);
-      });
-      Object.keys(screens).forEach(k=>{
-        screens[k].classList.toggle("active", k === tab);
-      });
+      document.querySelectorAll(".tab").forEach(b=> b.classList.toggle("active", b.dataset.tab === tab));
+      Object.keys(screens).forEach(k=> screens[k].classList.toggle("active", k === tab));
       if(tab === "progress") renderProgress();
       if(tab === "calendar") syncDatePicker();
     }
+    document.querySelectorAll(".tab").forEach(b=> b.addEventListener("click", ()=> setTab(b.dataset.tab)));
 
-    document.querySelectorAll(".tab").forEach(b=>{
-      b.addEventListener("click", ()=> setTab(b.dataset.tab));
-    });
-
-    // -----------------------------
-    // Header date controls
-    // -----------------------------
-    const dateTitle = document.getElementById("dateTitle");
-    const dateSubtitle = document.getElementById("dateSubtitle");
-    const prevDay = document.getElementById("prevDay");
-    const nextDay = document.getElementById("nextDay");
-
-    function shiftDay(n){
-      const d = new Date(selectedDate + "T00:00:00");
-      d.setDate(d.getDate() + n);
-      selectedDate = d.toISOString().slice(0,10);
-      renderWorkouts();
+    // Helpers
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
     }
-    prevDay.addEventListener("click", ()=>shiftDay(-1));
-    nextDay.addEventListener("click", ()=>shiftDay(1));
-
-    // -----------------------------
-    // Workout list screen
-    // -----------------------------
-    const workoutList = document.getElementById("workoutList");
-    const emptyHint = document.getElementById("emptyHint");
-    const heroWorkoutName = document.getElementById("heroWorkoutName");
-    const heroWorkoutMeta = document.getElementById("heroWorkoutMeta");
-
-    const statWorkouts = document.getElementById("statWorkouts");
-    const statVolume = document.getElementById("statVolume");
-
+    function workoutsByDate(iso){
+      return allWorkouts.filter(w => w.date === iso).sort((a,b)=> (a.createdAt||0) - (b.createdAt||0));
+    }
     function calcWorkoutVolume(w){
       let sum = 0;
       for(const ex of (w.exercises||[])){
         for(const s of (ex.sets||[])){
-          const ww = Number(s.w||0);
-          const rr = Number(s.r||0);
-          sum += ww * rr;
+          sum += Number(s.w||0) * Number(s.r||0);
         }
       }
       return Math.round(sum);
     }
 
-    function workoutsByDate(iso){
-      return allWorkouts
-        .filter(w => w.date === iso)
-        .sort((a,b)=> (a.createdAt||0) - (b.createdAt||0));
-    }
+    // Workouts screen
+    const workoutList = document.getElementById("workoutList");
+    const heroWorkoutName = document.getElementById("heroWorkoutName");
+    const statWorkouts = document.getElementById("statWorkouts");
+    const statVolume = document.getElementById("statVolume");
 
     function renderWorkouts(){
-      dateTitle.textContent = fmtDateTitle(selectedDate);
-      dateSubtitle.textContent = fmtDateSub(selectedDate);
-
       const todays = workoutsByDate(selectedDate);
 
       workoutList.innerHTML = "";
-      emptyHint.style.display = todays.length ? "none" : "block";
 
       if(!todays.length){
         heroWorkoutName.textContent = "Тренировка дня";
-        heroWorkoutMeta.textContent = "Добавь первую тренировку на выбранную дату";
       } else {
         const w0 = todays[0];
         heroWorkoutName.textContent = w0.title || "Тренировка";
-        const exCount = (w0.exercises||[]).length;
-        heroWorkoutMeta.textContent = `${exCount} упражнений • объём ${calcWorkoutVolume(w0)} кг`;
       }
 
       for(const w of todays){
         const exCount = (w.exercises||[]).length;
         const vol = calcWorkoutVolume(w);
+
         const div = document.createElement("div");
         div.className = "wItem";
         div.innerHTML = `
@@ -704,15 +548,7 @@
       statVolume.textContent = allWorkouts.reduce((acc,w)=>acc+calcWorkoutVolume(w),0);
     }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-      }[m]));
-    }
-
-    // -----------------------------
     // Editor sheet
-    // -----------------------------
     const sheet = document.getElementById("sheet");
     const closeSheet = document.getElementById("closeSheet");
     const newWorkoutBtn = document.getElementById("newWorkoutBtn");
@@ -721,6 +557,7 @@
     const wTitle = document.getElementById("wTitle");
     const wDate = document.getElementById("wDate");
     const exList = document.getElementById("exList");
+
     const addExerciseBtn = document.getElementById("addExerciseBtn");
     const draftBtn = document.getElementById("draftBtn");
     const saveBtn = document.getElementById("saveBtn");
@@ -729,22 +566,13 @@
       sheet.classList.add("show");
       if (TG?.HapticFeedback) TG.HapticFeedback.impactOccurred("light");
     }
-    function closeSheetFn(){
-      sheet.classList.remove("show");
-    }
+    function closeSheetFn(){ sheet.classList.remove("show"); }
     closeSheet.addEventListener("click", closeSheetFn);
     sheet.addEventListener("click", (e)=>{ if(e.target === sheet) closeSheetFn(); });
 
     function newDraft(dateISO){
-      return {
-        id: uid(),
-        date: dateISO,
-        title: "",
-        exercises: [],
-        createdAt: Date.now(),
-      };
+      return { id: uid(), date: dateISO, title: "", exercises: [], createdAt: Date.now() };
     }
-
     function openEditor(existing){
       draft = existing ? JSON.parse(JSON.stringify(existing)) : newDraft(selectedDate);
       wTitle.value = draft.title || "";
@@ -770,9 +598,7 @@
             <input class="name" placeholder="Упражнение (напр: Жим лёжа)" value="${escapeHtml(ex.name||"")}">
             <button class="mini danger" title="Удалить упражнение">Удалить</button>
           </div>
-
           <div class="sets"></div>
-
           <div style="display:flex;gap:10px;margin-top:10px">
             <button class="mini addSet">＋ Подход</button>
           </div>
@@ -820,11 +646,22 @@
       });
     }
 
+    function upsertLocal(w){
+      const i = allWorkouts.findIndex(x=>x.id === w.id);
+      if(i >= 0) allWorkouts[i] = w; else allWorkouts.push(w);
+      saveLocal(allWorkouts);
+    }
+
+    function sendToBot(workout){
+      const payload = { type: "save_workout", workout };
+      if (TG?.sendData) { TG.sendData(JSON.stringify(payload)); toast("Отправлено в бота 💾"); }
+      else { toast("Открыто не в Telegram. Сохранено локально."); }
+    }
+
     draftBtn.addEventListener("click", ()=>{
       if(!draft) return;
       draft.title = wTitle.value.trim() || "Тренировка";
       draft.date = wDate.value || selectedDate;
-
       upsertLocal(draft);
       closeSheetFn();
       selectedDate = draft.date;
@@ -837,44 +674,17 @@
       if(!draft) return;
       draft.title = wTitle.value.trim() || "Тренировка";
       draft.date = wDate.value || selectedDate;
-
       upsertLocal(draft);
       selectedDate = draft.date;
       renderWorkouts();
-
       sendToBot(draft);
-
       closeSheetFn();
       setTab("workouts");
     });
 
-    function upsertLocal(w){
-      const i = allWorkouts.findIndex(x=>x.id === w.id);
-      if(i >= 0) allWorkouts[i] = w;
-      else allWorkouts.push(w);
-      saveLocal(allWorkouts);
-    }
-
-    function sendToBot(workout){
-      const payload = {
-        type: "save_workout",
-        workout
-      };
-
-      if (TG?.sendData) {
-        TG.sendData(JSON.stringify(payload));
-        toast("Отправлено в бота 💾");
-      } else {
-        toast("TG не найден (открыто не в Telegram). Данные сохранены локально.");
-      }
-    }
-
     sendToBotBtn.addEventListener("click", ()=>{
       const todays = workoutsByDate(selectedDate);
-      if(!todays.length){
-        toast("На эту дату нет тренировок.");
-        return;
-      }
+      if(!todays.length){ toast("На эту дату нет тренировок."); return; }
       sendToBot(todays[0]);
     });
 
@@ -882,15 +692,10 @@
       toast("Экспорт: открой чат с ботом и введи /export");
     });
 
-    // -----------------------------
     // Calendar screen
-    // -----------------------------
     const datePicker = document.getElementById("datePicker");
     const goToDateBtn = document.getElementById("goToDateBtn");
-
-    function syncDatePicker(){
-      datePicker.value = selectedDate;
-    }
+    function syncDatePicker(){ datePicker.value = selectedDate; }
     goToDateBtn.addEventListener("click", ()=>{
       if(datePicker.value){
         selectedDate = datePicker.value;
@@ -899,9 +704,7 @@
       }
     });
 
-    // -----------------------------
     // Progress screen
-    // -----------------------------
     const pDuration = document.getElementById("pDuration");
     const pCount = document.getElementById("pCount");
     const pVolume = document.getElementById("pVolume");
@@ -921,6 +724,12 @@
       toast("Экспорт: команда бота /export");
     });
 
+    function estimateMinutes(w){
+      let sets = 0;
+      for(const ex of (w.exercises||[])) sets += (ex.sets||[]).length;
+      return sets * 3;
+    }
+
     function renderProgress(){
       const totalCount = allWorkouts.length;
       const totalVolume = allWorkouts.reduce((acc,w)=>acc+calcWorkoutVolume(w),0);
@@ -931,14 +740,6 @@
       pDuration.textContent = estDuration;
 
       drawChart();
-    }
-
-    function estimateMinutes(w){
-      let sets = 0;
-      for(const ex of (w.exercises||[])){
-        sets += (ex.sets||[]).length;
-      }
-      return sets * 3;
     }
 
     function drawChart(){
@@ -979,10 +780,7 @@
       ctx.lineWidth = 1;
       for(let i=0;i<5;i++){
         const y = padding + (H - padding*2) * (i/4);
-        ctx.beginPath();
-        ctx.moveTo(padding, y);
-        ctx.lineTo(W-padding, y);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(padding, y); ctx.lineTo(W-padding, y); ctx.stroke();
       }
 
       for(let i=0;i<values.length;i++){
@@ -999,9 +797,7 @@
       ctx.fillText("Тренировки по дням", padding, 18);
     }
 
-    // -----------------------------
     // Settings
-    // -----------------------------
     document.getElementById("clearLocalBtn").addEventListener("click", ()=>{
       localStorage.removeItem(LS_KEY);
       allWorkouts = [];
@@ -1012,17 +808,11 @@
 
     document.getElementById("requestExportBtn").addEventListener("click", ()=>{
       const payload = { type: "request_export" };
-      if (TG?.sendData) {
-        TG.sendData(JSON.stringify(payload));
-        toast("Запрос экспорта отправлен боту 📦");
-      } else {
-        toast("TG не найден. Открой в Telegram.");
-      }
+      if (TG?.sendData) { TG.sendData(JSON.stringify(payload)); toast("Запрос экспорта отправлен боту 📦"); }
+      else toast("Открой в Telegram.");
     });
 
-    // -----------------------------
     // Toast
-    // -----------------------------
     let toastT = null;
     function toast(text){
       let el = document.getElementById("toast");
@@ -1051,9 +841,7 @@
       toastT = setTimeout(()=>{ el.style.opacity="0"; }, 1900);
     }
 
-    // -----------------------------
     // Start
-    // -----------------------------
     function init(){
       selectedDate = todayISO();
       renderWorkouts();
