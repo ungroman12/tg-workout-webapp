@@ -129,36 +129,53 @@
       cursor:pointer;
     }
 
-    /* Bottom tabs */
-    .tabs{
-      position:fixed;left:0;right:0;bottom:0;
-      padding:12px 12px 18px;
-      background:rgba(10,14,20,.82);
-      backdrop-filter: blur(12px);
-      border-top:1px solid var(--line);
-    }
-    .tabs .inner{
-      max-width:980px;margin:0 auto;
-      display:flex;gap:10px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:8px;
-      box-shadow:var(--shadow);
-    }
-   .tab{
-  flex:1;
-  min-width:0;          /* важно — не даёт кнопке растягиваться */
-  max-width:100%;
-  overflow:hidden;      /* обрезаем лишнее */
-  white-space:nowrap;   /* не переносим текст */
-  text-overflow:ellipsis; /* … если не влезает */
+   /* Bottom navigation – Telegram style */
+.tabs{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:8px 12px 12px;
+  background:rgba(10,14,20,.92);
+  backdrop-filter: blur(14px);
+  border-top:1px solid var(--line);
+  z-index:30;
 }
-    .tab.active{
-      background:rgba(47,124,246,.18);
-      color:var(--text);
-      border:1px solid rgba(47,124,246,.28);
-    }
+
+.tabs .inner{
+  max-width:980px;
+  margin:0 auto;
+  display:flex;
+  gap:6px;
+}
+
+.tab{
+  flex:1;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:10px 6px;
+  border-radius:14px;
+  font-weight:800;
+  font-size:12px;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+.tab span{
+  font-size:11px;
+  line-height:1;
+}
+
+.tab.active{
+  background:rgba(47,124,246,.18);
+  color:var(--text);
+  border:1px solid rgba(47,124,246,.35);
+}
 
     /* Screens */
     .screen{display:none}
